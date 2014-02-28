@@ -23,7 +23,7 @@ See what happens! (works best if matplotlib is installed)
     $ ./runall.sh
 
 The "runall.sh" script is the preferred way to compile benchmarks, run the
-tests, collect the results, and plot the results. 
+tests, collect the data, and plot the results. 
  
 You will need matplotlib installed to graph results. The 'open' command is also
 used, which only works on OSX (comment it out otherwise). 
@@ -39,7 +39,7 @@ corresponding $architecture(s) variable to specify the target ISA.
 ## More Controlled Way to Run Tests
 ------------------------------------------------------------------------------
 
-How to Run the "caches" benchmark (helps deduce access time and cache size):
+How to Run the "caches" benchmark: 
 
     $ cd $CCBENCH/caches
     $ make clean; make
@@ -74,7 +74,7 @@ The ccbench suite currently supports benchmarking processors (or emulators)
 running the following ISAs: x86, ARM, Tilera's TILE64, and UCB's RISC-V. 
 
 The easiest method is to use the "runall.sh" top-level script and specify the
-machine under the $architecture(s) variable (x86, arm, tile64,riscv). This
+machine under the $architecture(s) variable (x86, arm, tile64, riscv). This
 drives the Makefile to compile the benchmark as appropriate and supplies the
 run_test.py script with the appropriate "-a" flag to invoke the proper target
 machine. 
@@ -90,7 +90,7 @@ scripts.
 By default, a "generic" architecture setting is used in which gcc is called to
 compile the benchmark.  The benchmark is then executed directly on the machine.
 This will work for both x86 and ARM. However, to get more specific compiler
-flags (as well as for targets that require cross-compiling), it is reccommended
+flags (as well as for targets that require cross-compiling), it is recommended
 that you specify exactly the desired target architecture.
   
 ------------------------------------------------------------------------------
@@ -168,7 +168,8 @@ To make life easier, it is recommended that you have passwordless login.
 By setting the "architecture" variable as RISC-V (e.g., runall.sh), ccbench
 will run on the RISC-V processor "emulator" binary.*
 
-Requirements:
+**Requirements:**
+
    - Your RISC-V C++ emulator binary must be named "emulator".
    - The "emulator" binary must be in your path.
    - The "dramsim2_ini" directory should be located in the same directory as
@@ -198,10 +199,11 @@ runs on top of the RISC-V proxy kernel (pk).
 ## Additional Information 
 ------------------------------------------------------------------------------
 
-Buyer beware. Feel free to provide feedback as well as contribute to.
+Buyer beware. Feel free to provide feedback as well as contribution.
 
-The CS267 report provided is out-of-date, so do not completely trust the
-graphs/results provided in it.
+The CS267 report provided in $CCBENCH/docs is out-of-date, so do not completely
+trust the graphs/results provided in it (but the theory behind the benchmarks
+is still relevant). 
 
 
 ------------------------------------------------------------------------------
