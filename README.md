@@ -7,11 +7,17 @@
 
 
 This repository contains a collection of small micro-kernels to stress-test
-memory systems and processors. 
+memory systems and processors. See **./docs** for more in-depth material on
+the theory behind these micro-benchmarks.
 
 ------------------------------------------------------------------------------
 ## Quick Way to Run Tests
 ------------------------------------------------------------------------------
+
+See what happens! (works best if matplotlib is installed)
+
+    $ ./runall.sh
+
 
 To auto-run a set of benchmarks, see the "runall.sh" script. Set the desired
 tests to use through the $TEST variable in the script. If $RUN_LOCAL is set to
@@ -201,6 +207,9 @@ graphs/results provided in it.
   - improve RISC-V code performance (currently too many instructions in inner
         loops, etc.).
   - improve RISC-V support (multi-thread, dramsim2 installation, etc.)
+  - modify peakflops to excercise FMA unit
+  - modify peakflops to better fit with other benchmarks, more capable of
+        compiling to all architectures
   - serial flag for c2c bandwidth (see if matchs intel's)
   - make c2c pick between lat and band (or run and report both numbers?)
   - different strides for c2c
