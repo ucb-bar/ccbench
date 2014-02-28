@@ -18,16 +18,17 @@ See what happens! (works best if matplotlib is installed)
 
     $ ./runall.sh
 
-
-To auto-run a set of benchmarks, see the "runall.sh" script. Set the desired
-tests to use through the $TEST variable in the script. If $RUN_LOCAL is set to
-1, the tests will run on the local machine.  Otherwise, you can provide the IP
-addresses in $remote_hosts to run the tests remotely (set up loginless login
-for best results).  You will also need to get the corresponding
-$architecture(s) variable to specify the target ISA.
-
+The "runall.sh" script is the preferred way to compile benchmarks, run the
+tests, collect the results, and plot the results. 
+ 
 You will need matplotlib installed to graph results. The 'open' command is also
 used, which only works on OSX (comment it out otherwise). 
+ 
+Set the desired tests to use through the $TEST variable in the script. If
+$RUN_LOCAL is set to 1, the tests will run on the local machine.  Otherwise,
+you can provide the IP addresses in $remote_hosts to run the tests remotely
+(set up loginless login for best results).  You will also need to get the
+corresponding $architecture(s) variable to specify the target ISA.
 
 
 ------------------------------------------------------------------------------
