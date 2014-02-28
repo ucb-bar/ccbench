@@ -10,6 +10,10 @@ This repository contains a collection of small micro-kernels to stress-test
 memory systems and processors. See **./docs** for more in-depth material on
 the theory behind these micro-benchmarks.
 
+The [github wiki](https://github.com/ucb-bar/ccbench/wiki/_pages) shows some of
+the latest results on some interesting machines (examples include the RISC-V
+Rocket processor and the ARM Cortex A9).
+
 ------------------------------------------------------------------------------
 ## Quick Way to Run Tests
 ------------------------------------------------------------------------------
