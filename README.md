@@ -1,8 +1,8 @@
 ##############################################################################
-#Christopher Celio
-#celio@eecs.berkeley.edu
-#UC Berkeley, Parlab
-#2010 Nov
+* Christopher Celio
+* celio@eecs.berkeley.edu
+* UC Berkeley, Parlab
+* 2010 Nov
 ##############################################################################
 
 
@@ -10,7 +10,7 @@ This directory contains a collection of small micro-kernels to stress-test
 memory systems and processors. 
 
 ------------------------------------------------------------------------------
-- Quick Way to Run Tests
+## Quick Way to Run Tests
 ------------------------------------------------------------------------------
 
 To auto-run a set of benchmarks, see the "runall.sh" script. Set the desired
@@ -25,7 +25,7 @@ used, which only works on OSX (comment it out otherwise).
 
 
 ------------------------------------------------------------------------------
-- More Controlled Way to Run Tests
+## More Controlled Way to Run Tests
 ------------------------------------------------------------------------------
 
 How to Run the "caches" benchmark (helps deduce access time and cache size):
@@ -38,7 +38,7 @@ How to Run the "caches" benchmark (helps deduce access time and cache size):
 This runs the "caches" benchmark using the "large" input set (see input.txt for
 other set types). Data is written to the ./report/report.txt file (actually, a
 generated report file based on the current timestamp is used). If matplotlib is
-installed, ./run_test.py will also plot the results to a *.pdf file.  
+installed, ./run_test.py will also plot the results to a *.pdf file.
 
 
 If the data is collected on a machine without matplotlib, you can plot the data
@@ -51,12 +51,12 @@ by copying the report.txt file to a machine with matplotlib, and then running
   laptop$ open plots/caches.pdf
 
 You can feed it a specific report file using "-r my_report_name.txt". 
-  
+
 Use the "-h" flag to ./run_test.py to learn about some of its other options,
 which includes specialized annotations for some processors. 
                                                              
 ------------------------------------------------------------------------------
-- Building and Executing ccbench on non-x86 ISAs
+## Building and Executing ccbench on non-x86 ISAs
 ------------------------------------------------------------------------------
 
 The ccbench suite currently supports benchmarking processors (or emulators)
@@ -83,7 +83,7 @@ flags (as well as for targets that require cross-compiling), it is reccommended
 that you specify exactly the desired target architecture.
   
 ------------------------------------------------------------------------------
-- Running Tests Remotely
+## Running Tests Remotely
 ------------------------------------------------------------------------------
 
 An expected use-case is wanting to easily benchmark a zoo of processors that
@@ -105,7 +105,7 @@ graphed locally.
 To make life easier, it is recommended that you have passwordless login.  
 
 ------------------------------------------------------------------------------
-- Important Files
+## Important Files
 ------------------------------------------------------------------------------
 
   - run_tests.py        - main CLI program to run and plot tests. Python 
@@ -128,7 +128,7 @@ To make life easier, it is recommended that you have passwordless login.
 
  
 ------------------------------------------------------------------------------
-- Current Micro-benchmarks And What They Measure
+## Current Micro-benchmarks And What They Measure
 ------------------------------------------------------------------------------
 
   - caches       - cache sizes, access latencies (pointer chase)
@@ -151,7 +151,7 @@ To make life easier, it is recommended that you have passwordless login.
 
   
 ------------------------------------------------------------------------------
-- Running benchmarks on the RISC-V emulator
+## Running benchmarks on the RISC-V emulator
 ------------------------------------------------------------------------------
 
 By setting the "architecture" variable as RISC-V (e.g., runall.sh), ccbench
@@ -175,7 +175,7 @@ or issues that may arise.
 
 
 ------------------------------------------------------------------------------
-- A note about RISC-V support
+## A note about RISC-V support
 ------------------------------------------------------------------------------
  
 Currently, this suite provides no support for multi-thread RISC-V operations.
@@ -184,17 +184,17 @@ runs on top of the RISC-V proxy kernel (pk).
 
 
 ------------------------------------------------------------------------------
-- Additional Information 
+## Additional Information 
 ------------------------------------------------------------------------------
 
 Buyer beware. Feel free to provide feedback as well as contribute to.
 
 The CS267 report provided is out-of-date, so do not completely trust the
 graphs/results provided in it.
- 
+
 
 ------------------------------------------------------------------------------
-- TODO
+## TODO
 ------------------------------------------------------------------------------
 
   - make easier to use, extend
