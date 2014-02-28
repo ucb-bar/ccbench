@@ -263,10 +263,11 @@ def main():
         outputAccessLatency(data,262144, "DRAM    ", 3.4);
     else:
         plt.title("Cache Hierarchy" + r'', fontstyle='italic')
-        outputAccessLatency(data,     8, "", 2.0);
-        outputAccessLatency(data,    64, "", 2.0);
-        outputAccessLatency(data,  1024, "", 2.0);
-        outputAccessLatency(data, 16384, "", 2.0);
+        print "  Unknown processor - cycle count is assuming a 1 GHz clock"
+        outputAccessLatency(data,     8, "", 1.0);
+        outputAccessLatency(data,    64, "", 1.0);
+        outputAccessLatency(data,  1024, "", 1.0);
+        outputAccessLatency(data, 16384, "", 1.0);
     print " ";
 
     if (ccbench.PLOT_FILENAME == "none"):

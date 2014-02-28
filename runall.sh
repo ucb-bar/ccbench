@@ -15,17 +15,18 @@
 
 
 #run tests on local machine, or run tests on remote machines?
-RUN_LOCAL=0
+RUN_LOCAL=1
 
 
 # Which tests and input sizes do we want to use?
 #TESTS=(caches band_req band_req_mc cache2cache mem_interleaving)
-TESTS=(band_req)
-INPUTSIZE="riscv"
-#INPUTSIZE="large"
+TESTS=(caches)
+INPUTSIZE="small"
+# if you're running riscv, you'll want much shorter input vectors!
+#INPUTSIZE="riscv"
 
 # Information for running on the local machine
-local_proc="ivybridge"         
+local_proc="unknown"         
 architecture="x86"
 
 # Information for running on remote host machines
@@ -34,9 +35,12 @@ HOST_CC_DIR="~/ccbench/"
 #remote_procs=(boxboro cuda1 emerald bridge tilera-l3 tilera)
 #remote_archs=(x86 x86 x86 x86 tile64 tile64)
 
-remote_hosts=($A3)
-remote_procs=(spike)
-remote_archs=(riscv)
+#remote_hosts=($A3)
+#remote_procs=(spike)
+#remote_archs=(riscv)
+remote_hosts=($KAYLA)
+remote_procs=(kayla)
+remote_archs=(arm)
 
 
 if [ $RUN_LOCAL -eq 1 ]
