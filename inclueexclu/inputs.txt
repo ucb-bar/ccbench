@@ -1,0 +1,55 @@
+# incluexclu input-file
+# 
+# Format:
+# [test-type]
+# NumThreads=[2]
+# AppSizeArg=[8]
+# NumIterations=[16]
+# ...
+#
+# test-type can be passed to run_tests.py, 
+# which then picks the appropriate parameter 
+# set. Some parameters, such as AppSizeArg, 
+# can be arrays, which will then be handled 
+# and plotted appropriately.
+#
+# All other relevent parameters will only 
+# look at the first number.
+#   
+# The following format is also legal:
+#       
+#   AppSize=[2:20,+2]
+#       
+# Which describes all numbers from 2 to 20 
+# (exclusive?) in increments of +2.
+#           
+# test-type can be passed to run_tests.py,
+# which then picks the appropriate parameters.
+# NumThreads and AppSize can be an array, 
+# which will then be handled and plotted 
+# appropriately.
+#
+# All other relevent parameters will only look 
+# at the first number.
+ 
+
+[test]
+NumThreads=[2]
+AppSizeArg=[16]
+NumIterations=[16]
+
+[small]
+NumThreads=[1,2]
+AppSizeArg=[4,32,64,128,200,256,512,1024,2048,4192,7000,8192,16384,18000,40000,60000,100000,262144,300100,400100,500100,524288]
+NumIterations=[7108864]
+
+[medium]
+NumThreads=[1]
+AppSizeArg=[4,16,32,64,78,128,160,200,256,384,512,600,800,900,1024,1500,2048,2100,2200,2500,2700,3000,3200,3500,4192,4500,5000,6000,7000,8192,8500,10000,12000,16384,18000,20000,30000,40000,50100,55000,60000,75100,80000,85000,90000,100000,262144,300100,400100,500100,524288,524289,600100]
+NumIterations=[67108864]
+
+[large]
+NumThreads=[1,2,3]
+AppSizeArg=[256,384,512,600,800,900,1024,1500,2048,2100,2200,2500,2700,3000,3200,3500,4192,4500,5000,6000,7000,8192,8500,10000,12000,16384,18000,20000,30000,40000,50100,55000,60000,75100,80000,85000,90000,100000,262144,300100,400100,500100,524288,524289,600100,1048576,1572864,1966080,2097152,4194304]
+NumIterations=[67108864]
+

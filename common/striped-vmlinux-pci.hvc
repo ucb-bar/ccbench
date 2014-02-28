@@ -1,0 +1,230 @@
+# The default configuration file for use with PCIe cards.
+#
+# Several variables are used by this configuration file to produce
+# various OS configurations.  These can be defined using tile-monitor
+# or tile-mkboot's "--hvd" option.  They include:
+#
+# - XGBE_ARGS: additional options for the xgbe driver, such as
+#   "native_driver" to enable Linux networking.  (This would also
+#   require defining XARGS to include "TLR_NETWORK=xgbe0" to bring up
+#   the interface at boot time.)  This option is only used for the
+#   xgbe interface connected to the Ethernet switch on boards with
+#   such a switch.
+#
+# - GBE: if defined, provide drivers for both Gigabit Ethernet ports,
+#   and enable the native_driver option on them.  (To bring up an
+#   interface at boot time, you'll need to also request that via an
+#   XARGS addition, such as "TLR_NETWORK=gbe0".)  This option only
+#   applies to boards which support the GbE ports, such as the
+#   TILExpress-22G.
+#
+# - GPIO: if defined, provide Flex I/O drivers that enable Compact
+#   Flash (CF) and Solid State Drive (SSD) devices.  This option
+#   applies to TILExpress-64 cards with a CF socket, and
+#   TILExpress-20G cards with an onboard SSD device.
+#
+# - STRIPE_MEMORY: if defined, enable striping memory requests across
+#   all controllers.  For this to take effect, all controllers must be
+#   populated with the same amount of memory.  This option only
+#   applies to TILEPro64 processors.
+#
+# - XARGS: add additional Linux boot arguments.  The /init script
+#   takes environment variables to control its behavior; see the
+#   System Programmer's Guide for a complete list of these variables,
+#   as well as all the Tilera-specific Linux boot flags.
+#
+#   Some common environment variables are:
+#
+#   TLR_QUIET=y         Quieten /init during boot (use with "quiet" boot arg).
+#   TLR_TELNETD=n       Disable telnetd.
+#   TLR_INTERACTIVE=n   Disable interactive shell.
+#   TLR_SHEPHERD=n      Disable shepherd.
+#   TLR_SHEPHERD_ARGS="xxx"  Specify alternate shepherd arguments.
+#
+#   Note that the default TLR_SHEPHERD_ARGS cause the shepherd to
+#   listen for connections on PCIe channel 0 and TCP port 963, which
+#   is probably not appropriate for production use.
+
+
+# Several variables are extracted from properties in /dev/tilepciN/info,
+# including CHIP_VERSION, CHIP_WIDTH, CHIP_HEIGHT, and BOARD_HAS_PLX.
+#
+# We define shorter variables for the chip height and the chip width,
+# and a convenient variable for the Y-coordinate of the bottom row.
+# 
+# In this file, we restrict the dedicated tiles to the bottom row, so
+# that all of the other tiles will be available for user applications.
+# The main exception is when the GBE variable is defined; in this case
+# we use some tiles in the rightmost column for the GbE drivers.  This
+# is not necessarily optimal.  Normally, for example, it is better to
+# put xgbe/0 on the top row.
+#
+
+define W $CHIP_WIDTH
+define H $CHIP_HEIGHT
+#define W 8
+#define H 8
+define BOTTOM $($H-1)
+define RIGHT $($W-1)
+
+
+#
+# We use the BOARD_HAS_PLX property to distinguish between the
+# TILExpress-20G and TILExpress-10G cards (which have a PLX PCIe switch),
+# and the TILExpress-64 and TILExpress-36 cards (which do not).
+#
+# We then use the CHIP_WIDTH property to distinguish between the
+# TILExpress-20G and TILExpress-64 cards (which have a 8x8 chip), and
+# the TILExpress-10G and TILExpress-36 cards (which have a 6x6 chip).
+#
+
+if $BOARD_HAS_PLX
+#
+# TILExpress-20G / TILExpress-10G card.
+#
+
+if $W >= 8
+#
+# The TILExpress-20G card has two pcie and two xgbe interfaces.
+#
+
+device pcie/0 pcie
+  dedicated 0,$BOTTOM
+
+device pcie/1 pcie
+  dedicated 1,$BOTTOM
+
+device xgbe/0 xgbe_ipp1_epp
+  dedicated $($W-4),$BOTTOM $($W-3),$BOTTOM
+
+device xgbe/1 xgbe_ipp1_epp
+  dedicated $($W-2),$BOTTOM $($W-1),$BOTTOM
+
+else
+#
+# The TILExpress-10G card has only one pcie and one xgbe interface.
+#
+
+device pcie/0 pcie
+  dedicated 0,$BOTTOM
+
+device xgbe/0 xgbe_ipp1_epp
+  dedicated $($W-2),$BOTTOM $($W-1),$BOTTOM
+
+endif
+
+ifdef GBE
+
+#
+# GbE drivers, enable Linux networking
+#
+device gbe/0 gbe_ipp1_epp
+  dedicated $RIGHT,$($BOTTOM-4) $RIGHT,$($BOTTOM-3)
+  args native_driver
+
+device gbe/1 gbe_ipp1_epp
+  dedicated $RIGHT,$($BOTTOM-2) $RIGHT,$($BOTTOM-1)
+  args native_driver
+
+endif
+
+else
+#
+# TILExpress-64 / TILExpress-36 cards.
+#
+# These cards have an onboard network switch, and GPIO signals connected to
+# a CompactFlash slot.  We enable the gbe since its MDIO connection is
+# required to configure the onboard network switch.
+#
+# While the TILExpress-64 card does have two xgbe devices, the connector
+# for xgbe/1 is not exposed on the card's backpanel.  This device is thus
+# infrequently used, so we do not configure it by default.
+#
+
+device gbe/0
+  dedicated 1,$BOTTOM
+
+if $W >= 8
+#
+# The TILExpress-64 card has two pcie interfaces, but only pcie/1 is
+# connected to the edge connector on the card.
+#
+device pcie/1 pcie
+  dedicated 0,$BOTTOM
+
+else
+#
+# The TILExpress-36 card has one pcie interface.
+#
+device pcie/0 pcie
+  dedicated 0,$BOTTOM
+
+endif
+
+device xgbe/0 xgbe_ipp1_epp
+  dedicated $($W-2),$BOTTOM $($W-1),$BOTTOM
+  ifdef XGBE_ARGS
+  args $XGBE_ARGS
+  endif
+
+endif
+
+#
+# Common settings for all cards.
+#
+
+# All cards may have GPIO drivers, whether it's for Compact Flash on
+# -64/-36 cards, or SSD on -20G/-10G cards.  The GPIO drivers don't
+# fit on the bottom row on all cards, so put them as close to the
+# bottom right as will fit in with other drivers.
+
+ifdef GPIO
+
+device gpio/0 gpio
+  shared $($RIGHT-1),$($BOTTOM-1)
+
+device gpio/1 gpio
+  shared $($RIGHT-1),$($BOTTOM-1)
+
+device gpio/2 gpio
+  shared $($RIGHT-1),$($BOTTOM-1)
+
+device gpio/3 gpio
+  shared $($RIGHT-1),$($BOTTOM-1)
+
+endif
+
+options default_shared=2,$BOTTOM
+
+device memprof memprof
+  dedicated 3,$BOTTOM
+
+options stripe_memory
+
+#From the Manual: The set of CPUs to be used by hash-for-home memory is defined
+#by the hypervisor’s hfh_tiles option. To specify the CPU set, add a line
+#containing option hfh_tiles=N-M,... to your hvc file. By default, the
+#hypervisor fills the hash-for-home CPU set with all tiles that are not running
+#dedicated-tile hypervisor drivers.
+option hfh_tiles=0-55
+
+# CONFIG_VERSION is automatically set by tile-mkboot (and thus
+# indirectly by tile-monitor) to populate /proc/tile/hv with
+# configuration information.  It can be overridden with a "--hvd
+# CONFIG_VERSION=<xyz>" option.
+
+ifdef CONFIG_VERSION
+config_version $CONFIG_VERSION
+endif
+
+device srom/0 srom
+
+
+# Run vmlinux on all non-dedicated tiles.
+
+ifndef ARGS
+define ARGS
+endif
+
+client vmlinux
+  args $ARGS $XARGS

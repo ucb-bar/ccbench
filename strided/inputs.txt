@@ -1,0 +1,63 @@
+# strided input-file
+# 
+# Format:
+# [test-type]
+# NumThreads=[1]
+# AppSize=[32,64,1024]
+# AppStride=[1,2,4]
+# NumIterations=[16]
+# ...
+#
+# The following format is also legal:
+#   
+#   AppSize=[2:20,+2]
+#
+# Which describes all numbers from 2 to 20 
+# (exclusive?) in increments of +2.
+#
+# test-type can be passed to run_tests.py,
+# which then picks the appropriate parameters.
+# NumThreads and AppSize and AppStride
+# can be arrays, which will then be handled 
+# and plotted appropriately.
+#
+# All other relevent parameters will only look 
+# at the first number.
+
+[test]
+NumThreads=[1]
+AppSize=[8]
+AppStride=[8]
+NumIterations=[16]
+
+[small]
+NumThreads=[1]
+AppSize=[32:1024,*2]
+AppStride=[1:4,*2]
+NumIterations=[50]
+ 
+[medium]
+NumThreads=[1]
+#26,2144= 1MB (of 32b ints)
+#1,048,576 = 4 MB
+# Merom Core 2 Duo =  2 MB L2 Cache   (524,288 4B elements)
+# Merom Core 2 Duo = 32 KB L1 D-Cache (8192 4B elements)
+AppSize=[1024:1048576,*2] # 4KB to 4MB
+AppStride=[1:16384,*2] # 4B to 64KB
+NumIterations=[10000]
+#NumIterations=[567108864]
+
+[arrandale]
+NumThreads=[1]
+AppSize=[1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608]
+AppStride=[1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304]
+#NumIterations=[567108864]
+NumIterations=[7108864]
+
+
+[large]
+NumThreads=[1]
+AppSize=[1024:8388608,*2] # 4KB to 32MB
+AppStride=[ 1:4194304,*2] # 4B to 16MB
+NumIterations=[567108864]
+#NumIterations=[   188640]

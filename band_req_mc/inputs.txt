@@ -1,0 +1,41 @@
+#band_req input-file
+# 
+# Format:
+# [test-type]
+# NumThreads=[1,4,8]
+# AppSizeArg=[8]
+# NumIterations=[16]
+# ...
+#
+# test-type can be passed to run_tests_and_plot.py,
+# which then picks the appropriate parameters.
+# NumRequests and AppSize can be arrays, which
+# will then be handled and plotted appropriately.
+#
+# All other relevent parameters will only look at
+# the first number.
+
+[test]
+NumThreads=[1]
+NumRequests=[1]
+AppSize=[8]
+NumIterations=[16]
+
+[small]
+NumThreads=[1,2]
+NumRequests=[1]
+AppSize=[1024, 16384]
+NumIterations=[7108864]
+ 
+[medium]
+NumThreads=[1,2,4]
+NumRequests=[16]
+AppSize=[4,16,32,64,512,1024,2048,4192,5000,6000,8192,16384,50100,75100,100000,262144,300100,400100,524287,524288,524289,600100,750100]
+NumIterations=[7108864]
+ 
+[large]
+NumThreads=[1,2,4,8]
+NumRequests=[64]
+AppSizeArg=[4,16,32,64,512,1024,2048,4192,5000,6000,8192,16384,50100,75100,100000,262144,300100,400100,500100,524288,600100,750100,1048576,2097152,4000000]
+NumIterations=[27108864]
+                        

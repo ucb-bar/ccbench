@@ -1,0 +1,95 @@
+[tegra2]
+L1       Access Latency =  4.0077 ns @(  8 kB)
+Off-chip Access Latency =  83.3199 ns @( 16 MB)
+
+[boxboro]
+#no adjacent lines
+L1 = 32 kB
+L2 = 128-256 kB
+L3 = 24 MB
+L1       Access Latency =  1.83379 ns @(  8 kB)
+L2       Access Latency =  4.51459 ns @( 64 kB)
+L3       Access Latency =  7.18143 ns @(  1 MB)
+Off-chip Access Latency =  46.7923 ns @( 64 MB)
+DRAM     Access Latency =  46.7923 ns @( 64 MB)
+[boxboro]
+#adjacent lines
+L1       Access Latency =  1.83222 ns @(  8 kB)
+L2       Access Latency =  4.52776 ns @( 64 kB)
+L3       Access Latency =  9.52728 ns @(  1 MB)
+Off-chip Access Latency =  54.6164 ns @( 64 MB)
+DRAM     Access Latency =  54.6164 ns @( 64 MB)
+#128b "cacheline"
+L1       Access Latency =  1.8328 ns @(  8 kB)
+L2       Access Latency =  4.49842 ns @( 64 kB)
+L3       Access Latency =  15.2366 ns @(  1 MB)
+Off-chip Access Latency =  103.772 ns @( 64 MB)
+DRAM     Access Latency =  103.772 ns @( 64 MB)
+#256b "cacheline"
+# 
+L1       Access Latency =  1.83298 ns @(  8 kB)
+L2       Access Latency =  4.50572 ns @( 64 kB)
+L3       Access Latency =  20.6317 ns @(  1 MB)
+Off-chip Access Latency =  123.251 ns @( 64 MB)
+DRAM     Access Latency =  123.251 ns @( 64 MB)
+
+[bridge]
+#64b lines
+L1       Access Latency =  1.51105 ns @(  8 kB)
+L2       Access Latency =  3.54455 ns @( 64 kB)
+L3       Access Latency =  5.46998 ns @(  2 MB)
+DRAM     Access Latency =  19.6524 ns @( 64 MB)
+
+#128b lines
+L1       Access Latency =  1.51571 ns @(  8 kB)
+L2       Access Latency =  3.57342 ns @( 64 kB)
+L3       Access Latency =  6.87494 ns @(  2 MB)
+DRAM     Access Latency =  30.2629 ns @( 64 MB)
+#256b lines <<----- THIS IS THE no hit version
+L1       Access Latency =  1.51123 ns @(  8 kB)
+L2       Access Latency =  3.57487 ns @( 64 kB)
+L3       Access Latency =  8.82643 ns @(  2 MB)
+DRAM     Access Latency =  47.572 ns @( 64 MB)
+
+
+#2011 Dec 28 results
+
+[boxboro]
+  L1       Access Latency =  1.77051 ns @(  8 kB)
+  L2       Access Latency =  4.44298 ns @( 64 kB)
+  L3       Access Latency =  20.7366 ns @(  1 MB)
+  Off-chip Access Latency =  116.718 ns @( 64 MB)
+  DRAM     Access Latency =  116.718 ns @( 64 MB)
+
+[cuda1]
+  L1       Access Latency =  1.31727 ns @(  8 kB)
+  L2       Access Latency =  5.91078 ns @( 64 kB)
+  Off-chip Access Latency =  59.7406 ns @( 16 MB)
+
+
+[emerald]
+  L1       Access Latency =  1.82508 ns @(  8 kB)
+  L2       Access Latency =  4.49309 ns @( 64 kB)
+  L3       Access Latency =  20.0214 ns @(  1 MB)
+  Off-chip Access Latency =  20.8628 ns @( 16 MB)
+
+[bridge]
+  L1       Access Latency =  1.51116 ns @(  8 kB)
+  L2       Access Latency =  3.57546 ns @( 64 kB)
+  L3       Access Latency =  8.82802 ns @(  1 MB)
+  DRAM     Access Latency =  47.5993 ns @( 64 MB)
+
+[tilera-l3]
+  L1       Access Latency =  4.28997 ns @(  4 kB)
+  L2       Access Latency =  12.8753 ns @( 32 kB)
+  L3       Access Latency =  71.5781 ns @(  1 MB)
+  Off-chip Access Latency =  202.742 ns @( 16 MB)
+
+[tilera]
+  L1       Access Latency =  4.29156 ns @(  4 kB)
+  L2       Access Latency =  12.8736 ns @( 32 kB)
+  L3*      Access Latency =  135.486 ns @(  1 MB)
+  Off-chip Access Latency =  136.085 ns @( 16 MB)
+          
+
+

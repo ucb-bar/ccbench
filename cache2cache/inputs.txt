@@ -1,0 +1,39 @@
+#cache_size input-file
+# 
+# Format:
+# [test-type]
+# AppSize=[8]
+# NumIterations=[16]
+# ...
+#
+# test-type can be passed to run_tests_and_plot.py,
+# which then picks the appropriate parameters.
+# AppSize can be arrays, which will then be 
+# handled and plotted appropriately.
+#
+# All other relevent parameters will only look at
+# the first number.
+
+[test]
+AppSize=[8]
+NumIterations=[16]
+
+[small]
+#           4K,   8K,  16K  32K  64K
+AppSize=[1024,2048,4096,8192,16384]
+NumIterations=[1000]
+ 
+[medium]
+AppSize=[4,16,32,64,512,1024,2048,4192,5000,6000,8192,16384,50100,75100,100000,262144,300100]
+NumIterations=[1000]
+  
+[large]
+AppSizeArg=[4,16,32,64,512,1024,2048,3060, 4192,5000,6000,7000, 8192,9000,10000,12000,16384, 24576, 29696, 32768, 35840,37000, 40000, 50100, 60000, 62000,65536,68000,  70000,  75100,100000,131072,229376,262144,300100,400100,500100,524287,524288,524289,600100,750100, 786432, 917504, 996148, 1048576, 1101004 ,1572864, 1966080 ,2097152, 2228224 , 2621440,3145728, 4194304,8388608,16777216]
+NumIterations=[100000]
+ 
+[special]
+#pulls out the special 2MB wierdness
+#AppSize=[400100:750100,+17500]
+AppSize=[4:2000000,+17500]
+NumIterations=[100000]
+
