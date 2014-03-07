@@ -194,6 +194,13 @@ Currently, this suite provides no support for multi-thread RISC-V operations.
 For example, the barrier code is completely ifdef'ed out. Currently, ccbench
 runs on top of the RISC-V proxy kernel (pk).
 
+ 
+------------------------------------------------------------------------------
+## LICENSE
+------------------------------------------------------------------------------
+ 
+See LICENSE for details. 
+
 
 ------------------------------------------------------------------------------
 ## Additional Information 
