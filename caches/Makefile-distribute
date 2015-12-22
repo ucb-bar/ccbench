@@ -1,0 +1,17 @@
+# to use this, copy this Makefile, the emulator binary, the dramsim_ini directory
+# and the caches binary to a machine with lots of cores and run make -j N
+#
+# also, modify the path below to point to the correct version of pk
+
+export PATH := /nscratch/bar-crawl/tools-installs/ea6e379a05d36ff3e4771875745f5dae61118bc7/bin:$(PATH)
+
+appsize = 4 16 32 64 512 1024 2048 4192 5000 6000 7000 8192 9000 10000 12000 16384 24576 29696 32768 35840 37000 40000 50100 60000 62000 65536 68000 70000 75100 100000 131072 229376 262144 300100 400100
+# NumIterations=[300100]
+# RunType=[1, 16, 0]
+
+all: $(appsize)
+
+$(appsize):
+	./emulator +dramsim pk ./caches $@ 300100 0 > outputs/0-output-$@
+	./emulator +dramsim pk ./caches $@ 300100 1 > outputs/1-output-$@
+	./emulator +dramsim pk ./caches $@ 300100 8 > outputs/8-output-$@

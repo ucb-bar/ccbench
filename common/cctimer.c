@@ -47,4 +47,12 @@ cccycles_t inline cc_get_cycles(double clk_freq)
    double seconds = ( (double) tp.tv_sec + (double) tp.tv_usec * 1.e-6 );
    return seconds * clk_freq;
 }
-        
+
+uint64_t inline cc_get_cycles_emu()
+{
+    uint64_t dst;
+    __asm volatile ("rdcycle %0"
+            : "=r" (dst));
+    return dst;
+
+}

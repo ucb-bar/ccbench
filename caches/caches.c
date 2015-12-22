@@ -62,7 +62,7 @@ double volatile run_time_ns;
 double volatile run_time_us;
 double volatile run_time_ms;
 double volatile run_time_s;
-
+double volatile run_cycles;
 
 // Function Declarations
 uint32_t initializeGlobalArrays(uint32_t* arr_n_ptr, uint32_t num_elements, uint32_t stride);
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
    fprintf(stdout, "App:[caches],NumThreads:[%d],AppSize:[%d],Time:[%g], TimeUnits:[Time Per Iteration (ns)],NumIterations:[%u],RunType:[%d]\n",
       g_num_cores,
       g_num_elements,
-      ((double) run_time_ns / (double) g_performed_iterations),
+      ((double) run_cycles / (double) g_performed_iterations),
 	   g_performed_iterations,
       g_run_type
       );
@@ -166,7 +166,8 @@ uint32_t threadMain()
    // run for g_num_iterations or until MIN_TIME reached, whichever comes last
    cctime_t volatile start_time = cc_get_seconds(clk_freq);
    cctime_t volatile estimated_end_time = start_time + MIN_TIME;
-    
+   uint64_t volatile start_cycles = cc_get_cycles_emu();   
+
    intptr_t idx = 0;
 
    // we have to run for AT LEAST g_num_iterations, so dont muck up critical section 
@@ -186,6 +187,7 @@ uint32_t threadMain()
    }
 
    cctime_t volatile stop_time = cc_get_seconds(clk_freq);
+   uint64_t volatile stop_cycles = cc_get_cycles_emu();   
 
 #else
 
@@ -207,6 +209,7 @@ uint32_t threadMain()
    run_time_ns = run_time_s * 1.0E9;
    run_time_us = run_time_s * 1.0E6;
    run_time_ms = run_time_s * 1.0E3;
+   run_cycles = stop_cycles - start_cycles;
 
 #ifdef DEBUG
    fprintf(stderr, "Total_Time (s)             : %g\n", run_time_s);

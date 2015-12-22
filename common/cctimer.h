@@ -23,3 +23,5 @@ typedef uint32_t cccycles_t;
 // if a cycle-accurate timer is available, then the clk_freq
 // input is ignored.
 cccycles_t cc_get_cycles(double clk_freq);
+
+uint64_t cc_get_cycles_emu();
