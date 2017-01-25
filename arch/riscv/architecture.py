@@ -12,13 +12,15 @@
 import sys
 sys.path.append('../common/')
 import ccbench
+import os
 
 def runBenchmark(processor, app_bin, app_args, report_filename):
     
     if (processor == "spike"):
         cmd = "spike pk "
     else:
-        cmd = "emulator +dramsim pk " 
+        emu = os.getenv("emulator", "emulator")
+        cmd = emu + " pk "
 
     print cmd + app_bin + " " + app_args + " >> " + report_filename
     value = ccbench.runBash(cmd + app_bin + " " + app_args + " >> " + report_filename)
