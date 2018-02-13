@@ -98,9 +98,11 @@ def main():
     #handle default/cli args app
     app_bin = BASE_DIR + APP
     input_filename = BASE_DIR +  DEFAULT_INPUT_NAME
-    report_filename = REPORT_DIR + ccbench.getReportFileName(APP, REPORT_DIR)   
-   
+    # report_filename = REPORT_DIR + ccbench.getReportFileName(APP, REPORT_DIR)   
+    report_filename = ccbench.getReportFileName(APP, REPORT_DIR)   
+ 
     # 1. Parse inputs.txt file.
+    """
     if (not ccbench.NORUN):
         inputs = ccbench.parseInputFile(input_filename, variables, ccbench.INPUT_TYPE)
         inputs["NumDataPointsPerSet"] = []
@@ -113,12 +115,13 @@ def main():
             for app_size in inputs["AppSize"]:
                 app_args_list.append(str(app_size) + " " \
                     + str(inputs["NumIterations"][0]) + " " +str(run_type))
-
+    """
 
     # 2. Execute the benchmark and write to the report file.
+    """
     if (not ccbench.NORUN):
         ccbench.runBenchmark(app_bin, app_args_list, inputs, input_variables, report_filename)
-        
+    """ 
     
     # 3. Extract Data from the report file.
     data = ccbench.readReportFile(report_filename, variables)
@@ -131,10 +134,10 @@ def main():
         return
 
     if PLOT_POSTER:
-        fig = plt.figure(figsize=(5,3.5))
+        fig = plt.figure(figsize=(6,3))
         font = {#'family' : 'normal',
             #'weight' : 'bold',
-            'size'   : 8}
+            'size'   : 12}
         matplotlib.rc('font', **font)
         fig.subplots_adjust(top=0.94, bottom=0.14, left=0.1, right=0.96,wspace=0, hspace=0)
     else:
@@ -162,19 +165,22 @@ def main():
             )
     
     p1.set_xscale('log')
-    p1.set_yscale('log')
-    plt.ylabel(data["TimeUnits"][0])
+    #p1.set_yscale('log')
+    #plt.ylabel(data["TimeUnits"][0])
+    plt.ylabel('Cycles')
     plt.xlabel('Array Size')
-    plt.ylim((1, 320))
+    plt.ylim((1, 130))
     
     xmin,xmax=plt.xlim()
-    plt.xlim((0.5, 1024*64))
+    plt.xlim((0.5, 1024*10))
     
     # deal with ticks
-    xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,4096*2, 16384,16384*2,16384*4]
-    xtick_names = ['1 kB','2 kB','4 kB','8 kB','16 kB','32 kB','64 kB','128 kB','256 kB','512 kB','1 MB','2 MB','4 MB','8 MB','16 MB','32 MB','64 MB'] #for KB
-    ytick_range = [1,2,4,8,16,32,64,128,256] # in ns / iteration
-    ytick_names = ['1','2','4','8','16','32','64','128','256']
+    xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,8192]
+    xtick_names = ['1 kB','2 kB','4 kB','8 kB','16 kB','32 kB','64 kB','128 kB','256 kB','512 kB','1 MB','2 MB','4 MB','8MB']
+    #ytick_range = [1,2,48,16,32,64,128] # in ns / iteration
+    #ytick_names = ['1','2','4','8','16','32','64','128']
+    ytick_range = range(0, 130, 10)
+    ytick_names = map(str, ytick_range)
                      
     if (xmax > 1024*65):
         xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,4096*2, 16384,16384*2,16384*4,1024*128]
@@ -262,7 +268,7 @@ def main():
         outputAccessLatency(data,  1024, "L3      ", 3.4);
         outputAccessLatency(data,262144, "DRAM    ", 3.4);
     else:
-        plt.title("Cache Hierarchy" + r'', fontstyle='italic')
+        #plt.title("Cache Hierarchy" + r'', fontstyle='italic')
         print "  Unknown processor - cycle count is assuming a 1 GHz clock"
         outputAccessLatency(data,     8, "", 1.0);
         outputAccessLatency(data,    64, "", 1.0);
@@ -281,7 +287,7 @@ def main():
         filename = PLOT_DIR + os.path.basename(ccbench.PLOT_FILENAME)
         filename = os.path.splitext(filename)[0]
         
-    plt.savefig(filename)
+    plt.savefig(filename, bbox_inches='tight')
     print "Used report filename             : " + report_filename 
     print "Finished Plotting, saved as file : " + filename + ".pdf"
 

@@ -155,7 +155,7 @@ def controller():
                   default = "unknown")
     p.add_option('--architecture','-a', dest="architecture",
                   help='Denotes the architecture (ISA) we are going to measure, which sets the compiler/build options, and how to invoke the binary on the desired target machine.',
-                  default = "generic")
+                  default = "riscv")
     p.add_option('--outfilename','-o', dest="outfilename",
                   help='Filename for the generated output plot. The file is always placed in the \'plots\' directory. If directory name is provided as part of the \'outfilename\', it will be automatically stripped out (allows you to easily specify an existing filename).',
                   default = "none")
@@ -337,7 +337,8 @@ def getReportFileName(app_str, report_dir_path):
         else:   
             report_filename = generateReportFileName(app_str)
     else:   
-        report_filename = os.path.basename(REPORT_FILENAME)
+        # report_filename = os.path.basename(REPORT_FILENAME)
+        report_filename = REPORT_FILENAME
     return report_filename
 
 
