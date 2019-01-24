@@ -2,7 +2,7 @@
 # Architecture-specific Makefile fragment
 ##########################################
 
-CC=riscv64-unknown-elf-gcc
+CC=riscv64-unknown-linux-gnu-gcc
 
 # for now, compile common/barrier.* using our own barrier implementations.
 # if your compiler cant handle march, you're using an older version of gcc
