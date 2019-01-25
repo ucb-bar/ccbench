@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
    uint32_t volatile ret_val = threadMain();  
 
 #ifdef PRINT_SCRIPT_FRIENDLY
-   fprintf(stdout, "App:[caches],NumThreads:[%d],AppSize:[%d],Time:[%g], TimeUnits:[Time Per Iteration (ns)],NumIterations:[%u],RunType:[%d]\n",
+   fprintf(stdout, "App:[caches],NumThreads:[%d],AppSize:[%d],Time:[%g], TimeUnits:[Time Per Iteration (CYCLES)],NumIterations:[%u],RunType:[%d]\n",
       g_num_cores,
       g_num_elements,
       ((double) run_cycles / (double) g_performed_iterations),
