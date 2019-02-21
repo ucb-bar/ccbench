@@ -35,8 +35,7 @@
 
 // stride in # of elements, most processors have a 64byte cache line, so 16 elements
 // would stride across cache lines.
-#define CACHELINE_IN_BYTES_SZ (256)
-//#define CACHELINE_IN_BYTES_SZ (64)
+#define CACHELINE_IN_BYTES_SZ (64)
 #define CACHELINE_SZ (CACHELINE_IN_BYTES_SZ/sizeof(uint32_t))
 
 // in # bytes
