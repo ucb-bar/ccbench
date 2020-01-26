@@ -21,16 +21,11 @@
 //#define PRINT_ARRAY
 #define PRINT_SCRIPT_FRIENDLY
  
-//force benchmark to run for some minimum wall-clock time
+//force benchmark to run for some minimum duration in cycles
 // advantages: hopefully smoothes out noise of tests that run too quickly
 // disadvantages: adds additional code to critical loop (empirically unnoticable)
-#define USE_MIN_TIME
-//min time is in (seconds) 
-#ifndef __riscv
-#define MIN_TIME (1.0)
-#else
-#define MIN_TIME (0.0025)
-#endif
+#define USE_MIN_CYCLES
+#define MIN_CYCLES 100000UL
                       
 
 // stride in # of elements, most processors have a 64byte cache line, so 16 elements
@@ -57,10 +52,7 @@ uint32_t  g_performed_iterations;
 int g_stride;
 int g_run_type;  // choose between stride size, or random stride 
 
-double volatile run_time_ns;
-double volatile run_time_us;
-double volatile run_time_ms;
-double volatile run_time_s;
+cccycles_t run_cycles;
 
 
 // Function Declarations
@@ -120,10 +112,10 @@ int main(int argc, char* argv[])
    uint32_t volatile ret_val = threadMain();  
 
 #ifdef PRINT_SCRIPT_FRIENDLY
-   fprintf(stdout, "App:[caches],NumThreads:[%d],AppSize:[%d],Time:[%g], TimeUnits:[Time Per Iteration (ns)],NumIterations:[%u],RunType:[%d]\n",
+   fprintf(stdout, "App:[caches],NumThreads:[%d],AppSize:[%d],Time:[%g], TimeUnits:[Cycles Per Iteration],NumIterations:[%u],RunType:[%d]\n",
       g_num_cores,
       g_num_elements,
-      ((double) run_time_ns / (double) g_performed_iterations),
+      ((double) run_cycles / (double) g_performed_iterations),
 	   g_performed_iterations,
       g_run_type
       );
@@ -153,18 +145,18 @@ uint32_t threadMain()
                            g_stride);
    
    
-   // clk_freq irrelevant 
-   double const clk_freq = 0;
+   double const clk_freq = 1e9;
    g_performed_iterations = g_num_iterations;
 
 
    /** CRITICAL SECTION **/
 
+   cccycles_t start_cycles = cc_get_cycles(clk_freq);
+
 //TODO time code ahead of time, and set num_iterations based on that...
-#ifdef USE_MIN_TIME
-   // run for g_num_iterations or until MIN_TIME reached, whichever comes last
-   cctime_t volatile start_time = cc_get_seconds(clk_freq);
-   cctime_t volatile estimated_end_time = start_time + MIN_TIME;
+#ifdef USE_MIN_CYCLES
+   // run for g_num_iterations or until MIN_CYCLES reached, whichever comes last
+   cccycles_t estimated_end_cycles = start_cycles + MIN_CYCLES;
     
    intptr_t idx = 0;
 
@@ -175,7 +167,7 @@ uint32_t threadMain()
       idx = arr_n_ptr[idx];
    }
 
-   while (cc_get_seconds(clk_freq) < estimated_end_time)
+   while (cc_get_cycles(clk_freq) < estimated_end_cycles)
    {
       g_performed_iterations += g_num_iterations;
       for (uint32_t k = 0; k < g_num_iterations; k++)
@@ -184,12 +176,9 @@ uint32_t threadMain()
       }
    }
 
-   cctime_t volatile stop_time = cc_get_seconds(clk_freq);
-
 #else
 
    // run for g_num_iterations...
-   cctime_t volatile start_time = cc_get_seconds(clk_freq);
 
    intptr_t idx = 0;
 
@@ -198,20 +187,13 @@ uint32_t threadMain()
       idx = arr_n_ptr[idx];
    }
 
-   cctime_t volatile stop_time = cc_get_seconds(clk_freq);
-
 #endif 
 
-   run_time_s = ((double) (stop_time - start_time)); 
-   run_time_ns = run_time_s * 1.0E9;
-   run_time_us = run_time_s * 1.0E6;
-   run_time_ms = run_time_s * 1.0E3;
+   cccycles_t stop_cycles = cc_get_cycles(clk_freq);
+   run_cycles = stop_cycles - start_cycles;
 
 #ifdef DEBUG
-   fprintf(stderr, "Total_Time (s)             : %g\n", run_time_s);
-   fprintf(stderr, "Total_Time (ms)            : %g\n", run_time_ms);
-   fprintf(stderr, "Total_Time (us)            : %g\n", run_time_us);
-   fprintf(stderr, "Total_Time (ns)            : %g\n", run_time_ns);
+   fprintf(stderr, "Total_Cycles               : %lu\n", run_cycles);
 #endif
 
    // prevent compiler from removing ptr chasing...

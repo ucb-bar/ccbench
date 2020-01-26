@@ -17,7 +17,7 @@ typedef double cctime_t;
 cctime_t cc_get_seconds(double clk_freq);
 
 // unit is "cycles"
-typedef uint32_t cccycles_t;
+typedef unsigned long cccycles_t;
 
 // converts from seconds to cycles, given the frequency
 // if a cycle-accurate timer is available, then the clk_freq
