@@ -12,20 +12,9 @@
 // return the time in seconds
 cctime_t inline cc_get_seconds(double clk_freq)
 {
-   struct timeval {
-      long tv_sec;
-      long tv_usec;
-   };
- 
-   struct timezone {
-      int tz_minuteswest;
-      int tz_dsttime;
-   };
- 
    struct timeval tp;
-   struct timezone tzp;
  
-   gettimeofday(&tp,&tzp);
+   gettimeofday(&tp, NULL);
    return ( (double) tp.tv_sec + (double) tp.tv_usec * 1.e-6 );
 }
               
@@ -36,20 +25,9 @@ cccycles_t inline cc_get_cycles(double clk_freq)
    __asm__ __volatile__ ("rdcycle %0" : "=r" (cycles));
    return cycles;
 #else
-   struct timeval {
-      long tv_sec;
-      long tv_usec;
-   };
- 
-   struct timezone {
-      int tz_minuteswest;
-      int tz_dsttime;
-   };
- 
    struct timeval tp;
-   struct timezone tzp;
  
-   gettimeofday(&tp,&tzp);
+   gettimeofday(&tp, NULL);
    double seconds = ( (double) tp.tv_sec + (double) tp.tv_usec * 1.e-6 );
    return seconds * clk_freq;
 #endif
