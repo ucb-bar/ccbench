@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 
 # Author: Christopher Celio
 # Date  : 2010 Nov 6
