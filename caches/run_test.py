@@ -121,7 +121,7 @@ def main():
         
     
     # 3. Extract Data from the report file.
-    data = ccbench.readReportFile(report_filename, variables)
+    data = ccbench.readReportFile(report_filename, variables, sort="AppSize")
 
     
     # 4. Plot the Data

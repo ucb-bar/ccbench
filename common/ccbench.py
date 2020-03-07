@@ -265,22 +265,17 @@ def runBenchmark(app_bin, app_args_list, inputs, input_variables, report_filenam
 
 
 # returns data from the report file in dictionary form (I think)
-def readReportFile(report_filename, variables):
+def readReportFile(report_filename, variables, sort=None):
 
     # 3. Extract Data
     file = open(report_filename).readlines() #open the file
         
-    # "data" is a 1D dictionary, indexed by Variable.
-    data = {}  # Ordered Dict not in Python 2.6 :(
+    records = []
 
-
-    #initialize arrays
-    for variable in variables:
-        data[variable] = []
-        
     #one program run per line
     #App:[stencil3],NumThreads:[1],AppSizeArg:[32],Time(s):[55.000000]
     for line in file:
+        record = {}
         for variable in variables:
 
             #ignore commented out lines (first char is '#')
@@ -293,13 +288,27 @@ def readReportFile(report_filename, variables):
             idx = (line.strip()).find("@")
             if idx == 0:
                 if variable in line:
-                    data[variable].append(parseValueFromLine(line, variable))
+                    record[variable] = parseValueFromLine(line, variable)
 
             # (parse for "variable=[1337]")
             # initialize an element in the data matrix to be an array
             if variable in line:
-                data[variable].append(parseValueFromLine(line, variable))
+                record[variable] = parseValueFromLine(line, variable)
+        records.append(record)
 
+    # sort by variable if specified
+    if sort is not None:
+        records.sort(key = lambda x : int(x.get(sort, 0)))
+
+    # "data" is a 1D dictionary, indexed by Variable.
+    data = {}
+    # initialize arrays
+    for variable in variables:
+        data[variable] = []
+
+    for record in records:
+        for variable, value in record.items():
+            data[variable].append(value)
 
     return data
  
