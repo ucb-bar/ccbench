@@ -148,8 +148,10 @@ def main():
  
     # let's convert "appsizearg(#elm)" to "appsize(KB)"
     for i in range(len(data["AppSize"])):
-        data["AppSize"][i] = str(float(data["AppSize"][i]) * 4 / 1024)
-    
+        data["AppSize"][i] = float(data["AppSize"][i]) * 4 / 1024
+
+    for i in range(len(data["Time"])):
+        data["Time"][i] = float(data["Time"][i])
     
     for i in range(len(data["AppSize"])/num_datapoints):
         srt_idx = i*num_datapoints
