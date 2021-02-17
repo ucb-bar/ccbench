@@ -164,19 +164,19 @@ def main():
             )
     
     p1.set_xscale('log')
-    p1.set_yscale('log')
+    #p1.set_yscale('log')
     plt.ylabel(data["TimeUnits"][0])
     plt.xlabel('Array Size')
-    plt.ylim((1, 320))
+    plt.ylim((1, 110))
     
     xmin,xmax=plt.xlim()
-    plt.xlim((0.5, 1024*64))
+    plt.xlim((0.5, 1024*16))
     
     # deal with ticks
-    xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,4096*2, 16384,16384*2,16384*4]
-    xtick_names = ['1 kB','2 kB','4 kB','8 kB','16 kB','32 kB','64 kB','128 kB','256 kB','512 kB','1 MB','2 MB','4 MB','8 MB','16 MB','32 MB','64 MB'] #for KB
-    ytick_range = [1,2,4,8,16,32,64,128,256] # in ns / iteration
-    ytick_names = ['1','2','4','8','16','32','64','128','256']
+    xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,8192, 16384]
+    xtick_names = ['1 kB','2 kB','4 kB','8 kB','16 kB','32 kB','64 kB','128 kB','256 kB','512 kB','1 MB','2 MB','4 MB','8 MB','16 MB'] #for KB
+    ytick_range = range(0, 110, 10)
+    ytick_names = [str(x) for x in ytick_range]
                      
     if (xmax > 1024*65):
         xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,4096*2, 16384,16384*2,16384*4,1024*128]
