@@ -26,6 +26,6 @@ def runBenchmark(processor, app_bin, app_args, report_filename):
     cmd = "/opt/tile64pro/bin/tile-monitor" + " " \
         + PCI_ARGS + " " +  MONITOR_COMMON_ARGS
     data = runBash("source ~/.bash_profile; " + cmd)
-    print "echo \"" + data + "\" >> " + report_filename
+    print("echo \"" + data + "\" >> " + report_filename)
     value = runBash("echo \"" + data + "\" >> " + report_filename)
-    if value != "": print value
+    if value != "": print(value)

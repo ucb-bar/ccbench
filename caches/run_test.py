@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 
 # Author: Christopher Celio
 # Date  : 2010 Nov 6
@@ -57,7 +57,7 @@ try:
     import pylab
 except:
     NOPLOT = True
-    print "Failure to import {matplotlib/numpy/pylab}. Graphing turned off."
+    print("Failure to import {matplotlib/numpy/pylab}. Graphing turned off.")
 
 # pretty-print out the access latency at various levels in the memory hierarchy
 # input "size" (in kB) 
@@ -80,11 +80,11 @@ def outputAccessLatency(data, size, memstring, freq):
     cycles = float(time_ns) * freq
     # pretty print kB vs MB
     if (float(data["AppSize"][closest_idx]) > 1000):
-        print "  %s Access Latency =  %s ns @(%3g MB), %3.2f cycles" % \
-            (memstring, data["Time"][closest_idx], float(data["AppSize"][closest_idx])/1024, cycles)   
+        print(("  %s Access Latency =  %s ns @(%3g MB), %3.2f cycles" % \
+            (memstring, data["Time"][closest_idx], float(data["AppSize"][closest_idx])/1024, cycles)))   
     else:
-        print "  %s Access Latency =  %s ns @(%3g kB), %3.2f cycles" % \
-            (memstring, data["Time"][closest_idx], float(data["AppSize"][closest_idx]), cycles)   
+        print(("  %s Access Latency =  %s ns @(%3g kB), %3.2f cycles" % \
+            (memstring, data["Time"][closest_idx], float(data["AppSize"][closest_idx]), cycles)))   
     
 
 # 1. Parses input file.
@@ -143,7 +143,7 @@ def main():
     
     p1 = fig.add_subplot(1,1,1)
 
-    print "Plotting time..."
+    print("Plotting time...")
     num_datapoints = int(data["NumDataPointsPerSet"][0])
  
     # let's convert "appsizearg(#elm)" to "appsize(KB)"
@@ -153,7 +153,7 @@ def main():
     for i in range(len(data["Time"])):
         data["Time"][i] = float(data["Time"][i])
     
-    for i in range(len(data["AppSize"])/num_datapoints):
+    for i in range(int(len(data["AppSize"])/num_datapoints)):
         srt_idx = i*num_datapoints
         end_idx = (i+1)*num_datapoints
         p1.plot(
@@ -175,7 +175,7 @@ def main():
     # deal with ticks
     xtick_range = [1,2,4,8,16,32,64, 128,256, 512,1024,2048,4096,8192, 16384]
     xtick_names = ['1 kB','2 kB','4 kB','8 kB','16 kB','32 kB','64 kB','128 kB','256 kB','512 kB','1 MB','2 MB','4 MB','8 MB','16 MB'] #for KB
-    ytick_range = range(0, 110, 10)
+    ytick_range = list(range(0, 110, 10))
     ytick_names = [str(x) for x in ytick_range]
                      
     if (xmax > 1024*65):
@@ -208,7 +208,7 @@ def main():
     ccprocstats.plotCacheSizeLines(plt, p1, ccbench.PROCESSOR, ylow, yhigh)
 
     # customize figure title and other doodads based on the processor the test was run on
-    print " ";
+    print(" ");
     if (ccbench.PROCESSOR == "merom"):
         outputAccessLatency(data,     8, "L1      ", 2.33);
         outputAccessLatency(data,    64, "L2      ", 2.33);
@@ -265,12 +265,12 @@ def main():
         outputAccessLatency(data,262144, "DRAM    ", 3.4);
     else:
         plt.title("Cache Hierarchy" + r'', fontstyle='italic')
-        print "  Unknown processor - cycle count is assuming a 1 GHz clock"
+        print("  Unknown processor - cycle count is assuming a 1 GHz clock")
         outputAccessLatency(data,     8, "", 1.0);
         outputAccessLatency(data,    64, "", 1.0);
         outputAccessLatency(data,  1024, "", 1.0);
         outputAccessLatency(data, 16384, "", 1.0);
-    print " ";
+    print(" ");
 
     if (ccbench.PLOT_FILENAME == "none"):
         filename = PLOT_DIR + ccbench.generatePlotFileName(APP)
@@ -284,8 +284,8 @@ def main():
         filename = os.path.splitext(filename)[0]
         
     plt.savefig(filename)
-    print "Used report filename             : " + report_filename 
-    print "Finished Plotting, saved as file : " + filename + ".pdf"
+    print(("Used report filename             : " + report_filename)) 
+    print(("Finished Plotting, saved as file : " + filename + ".pdf"))
 
 
 

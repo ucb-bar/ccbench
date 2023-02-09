@@ -70,7 +70,7 @@ def parseIntArrayFromLine(line, str):
         
         else:
             fcn_idx = line.find("*")
-            if fcn_idx == -1: print "Unsupported Operator... let's pretend it's \"*\"..."
+            if fcn_idx == -1: print("Unsupported Operator... let's pretend it's \"*\"...")
             start_num   = int(line[0:colon_idx])
             end_num     = int(line[colon_idx+1:fcn_idx-1])
             inc_num     = int(line[fcn_idx+1:])
@@ -102,7 +102,7 @@ def parseIntArrayFromLine(line, str):
 #   from all reports
 def getDataIntArrayFromDict(data_dict, variable_key):
     return_array = []
-    for i,report_key in zip(range(len(data_dict)), data_dict.keys()):
+    for i,report_key in zip(list(range(len(data_dict))), list(data_dict.keys())):
         return_array.append(int(data_dict[report_key][variable_key][0]))
     return return_array
 
@@ -307,7 +307,7 @@ def readReportFile(report_filename, variables, sort=None):
         data[variable] = []
 
     for record in records:
-        for variable, value in record.items():
+        for variable, value in list(record.items()):
             data[variable].append(value)
 
     return data
@@ -376,5 +376,5 @@ def getMostRecentReportFile(report_dir_path):
                 
 #This idiom means the below code only runs when executed from the command line
 if __name__ == '__main__':
-  print '--Error: ccbench.py is an include file--'
+  print('--Error: ccbench.py is an include file--')
 

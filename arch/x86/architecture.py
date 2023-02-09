@@ -14,6 +14,6 @@ sys.path.append('../common/')
 import ccbench
 
 def runBenchmark(processor, app_bin, app_args, report_filename):
-    print "" + app_bin + " " + app_args + " >> " + report_filename
+    print("" + app_bin + " " + app_args + " >> " + report_filename)
     value = ccbench.runBash("" + app_bin + " " + app_args + " >> " + report_filename)
-    if value != "": print value
+    if value != "": print(value)

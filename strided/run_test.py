@@ -56,7 +56,7 @@ try:
     import pylab
 except:
     NOPLOT = True
-    print "Failure to import {matplotlib/numpy/pylab}. Graphing turned off."
+    print("Failure to import {matplotlib/numpy/pylab}. Graphing turned off.")
 
 
 # 1. Parses input file.
@@ -105,7 +105,7 @@ def main():
     fig = plt.figure(figsize=(10,5.5))
     p1 = fig.add_subplot(1,1,1)
 
-    print "Plotting time..."
+    print("Plotting time...")
     num_datapoints = int(data["NumDataPointsPerSet"][0])
  
     # let's convert "appsizearg(#elm)" to "appsize(KB)"
@@ -159,15 +159,15 @@ def main():
 
          
     # legend 
-    print "Adding Legend..."
+    print("Adding Legend...")
     colors =('b','g','r','c','m','y','k')
     legend_sz = len(data["AppSize"])/num_datapoints
     lines = []
 
-    for i in reversed(range(legend_sz)):
+    for i in reversed(list(range(legend_sz))):
         lines.append(plt.Line2D([0,10], [0,10], linewidth=3, color=colors[i % len(colors)]))
      
-    args = range(legend_sz)
+    args = list(range(legend_sz))
     for i in range(legend_sz):
         args[legend_sz-i-1] = data["AppSize"][(i*num_datapoints)]
 
@@ -196,7 +196,7 @@ def main():
         filename = ccbench.PLOT_FILENAME
         
     plt.savefig(PLOT_DIR + filename)
-    print "Finished Plotting, saved as file '" + PLOT_DIR + filename + ".pdf'"
+    print("Finished Plotting, saved as file '" + PLOT_DIR + filename + ".pdf'")
                 
                 
 #This idiom means the below code only runs when executed from the command line
